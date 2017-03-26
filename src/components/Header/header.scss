@@ -1,0 +1,26 @@
+.root {
+  height: 84px;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  font-size: 14px;
+  padding: 0 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  a {
+    text-decoration: none;
+    &:not(:last-child) {
+      margin-right: 40px;
+    }
+    &:visited {
+      color: black;
+    }
+    &:hover {
+      color: rgba(0,0,0,.8)
+    }
+  }
+}

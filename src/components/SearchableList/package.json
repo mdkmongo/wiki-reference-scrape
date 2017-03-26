@@ -1,0 +1,6 @@
+{
+  "name": "SearchableList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SearchableList.js"
+}
