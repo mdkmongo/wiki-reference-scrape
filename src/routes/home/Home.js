@@ -9,13 +9,16 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import SearchableList from '../../components/SearchableList';
 import s from './Home.scss';
 
-function Home({ news }) {
+function Home() {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        Home
+        <SearchableList
+          endpoint='/wiki-api/search/'
+        />
       </div>
     </div>
   );

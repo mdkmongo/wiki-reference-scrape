@@ -9,6 +9,8 @@
 
 import React, { Component, PropTypes } from 'react';
 import emptyFunction from 'fbjs/lib/emptyFunction';
+import MobileHeader from '../MobileHeader';
+import Header from '../Header';
 import withViewport from '../withViewport';
 import s from './App.scss';
 
@@ -23,6 +25,10 @@ class App extends Component {
     }),
     children: PropTypes.element.isRequired,
     error: PropTypes.object,
+    viewport: PropTypes.shape({
+      height: PropTypes.number,
+      width: PropTypes.number,
+    })
   };
 
   static childContextTypes = {
@@ -51,9 +57,16 @@ class App extends Component {
     this.removeCss();
   }
 
+  renderHeader() {
+    const { viewport } = this.props;
+    const { width } = viewport;
+    return width > 500 ? (<Header />) : (<MobileHeader />)
+  }
+
   render() {
     return !this.props.error ? (
       <div>
+        <Header />
         {this.props.children}
       </div>
     ) : this.props.children;

@@ -70,10 +70,11 @@ server.get('/login/facebook/return',
 //
 // Register Wikipedia API middleware
 // -----------------------------------------------------------------------------
-server.get('/wiki-api/refs/:site', (req, res) => {
+server.get('/wiki-api/refs/:url', (req, res) => {
   const { url } = req.params;
+  const query = `https://en.wikipedia.org/wiki/${url}`;
   let references = [];
-  request(url, (error, response, html) => {
+  request(query, (error, response, html) => {
     if (!error) {
       const $ = cheerio.load(html);
       $('.references cite .external.text').filter((i, ref) => {
