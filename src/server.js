@@ -17,11 +17,13 @@ import expressGraphQL from 'express-graphql';
 import jwt from 'jsonwebtoken';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
+import request from 'request';
+import cheerio from 'cheerio';
 import passport from './core/passport';
 import schema from './data/schema';
 import Router from './routes';
 import assets from './assets';
-import { port, auth, analytics } from './config';
+import { port, auth, analytics, wikiAPI } from './config';
 
 const server = global.server = express();
 
@@ -64,6 +66,49 @@ server.get('/login/facebook/return',
     res.redirect('/');
   }
 );
+
+//
+// Register Wikipedia API middleware
+// -----------------------------------------------------------------------------
+server.get('/wiki-api/refs/:site', (req, res) => {
+  const { url } = req.params;
+  let references = [];
+  request(url, (error, response, html) => {
+    if (!error) {
+      const $ = cheerio.load(html);
+      $('.references cite .external.text').filter((i, ref) => {
+        if (ref.name === 'a') {
+          let reference = {
+            link: ref.attribs.href,
+          }
+          ref.children.map(c => {
+            if (c.type === 'text') {
+              reference.title = c.data
+            }
+          })
+          references.push(reference);
+        }
+      })
+    }
+    res.send(references);
+  })
+})
+
+server.get('/wiki-api/search/:search', (req, res) => {
+  const { search } = req.params;
+  request(`${wikiAPI}search=${escape(search)}`, (error, response) => {
+    let data = JSON.parse(response.body);
+    const titles = data[1];
+    const links = data[3];
+    const o = titles.map((title, i) => {
+      return {
+        title: title,
+        link: links[i]
+      }
+    })
+    res.send(o);
+  });
+})
 
 //
 // Register API middleware

@@ -45,3 +45,5 @@ export const auth = {
   },
 
 };
+
+export const wikiAPI = 'https://en.wikipedia.org/w/api.php?action=opensearch&namespace=0&utf8&format=json&';
