@@ -13,7 +13,7 @@ class Header extends Component {
           </div>
           <div>
             <Link to='/about'>About</Link>
-            <Link to='/'>Github</Link>
+            <a href='https://github.com/willchertoff/wiki-reference-scrape' target="_blank">Github</a>
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ function Home() {
     <div className={s.root}>
       <div className={s.container}>
         <SearchableList
-          endpoint='/wiki-api/search/'
+          endpoint='wiki-api/search'
         />
       </div>
     </div>

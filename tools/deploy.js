@@ -11,12 +11,15 @@ import GitRepo from 'git-repository';
 import run from './run';
 import fetch from './lib/fetch';
 
+const gitAddress = 'https://git.heroku.com/wiki-scrape.git';
+const siteAddress = 'https://wiki-scrape.herokuapp.com/';
+
 // TODO: Update deployment URL
 // For more information visit http://gitolite.com/deploy.html
 const getRemote = (slot) => ({
   name: slot || 'production',
-  url: `https://example${slot ? `-${slot}` : ''}.scm.azurewebsites.net:443/example.git`,
-  website: `http://example${slot ? `-${slot}` : ''}.azurewebsites.net`,
+  url: gitAddress,
+  website: siteAddress,
 });
 
 /**
@@ -48,10 +51,6 @@ async function deploy() {
   await repo.add('--all .');
   await repo.commit('Update');
   await repo.push(remote.name, 'master');
-
-  // Check if the site was successfully deployed
-  const response = await fetch(remote.website);
-  console.log(`${remote.website} -> ${response.statusCode}`);
 }
 
 export default deploy;

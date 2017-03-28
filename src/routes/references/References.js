@@ -10,6 +10,7 @@ function References({references, page}) {
     <div className={s.root}>
       <div className={s.container}>
         <h1>{noSpecialChars(page)}</h1>
+        <h4>References:</h4>
         <div>
           {
             references.map((r, i) => {

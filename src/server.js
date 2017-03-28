@@ -74,9 +74,11 @@ server.get('/wiki-api/refs/:url', (req, res) => {
   const { url } = req.params;
   const query = `https://en.wikipedia.org/wiki/${url}`;
   let references = [];
+  let pageMeta = {};
   request(query, (error, response, html) => {
     if (!error) {
       const $ = cheerio.load(html);
+      /* Get References */
       $('.references cite .external.text').filter((i, ref) => {
         if (ref.name === 'a') {
           let reference = {
