@@ -4,6 +4,7 @@ import s from './References.scss';
 
 const noSpecialChars = str => str.replace(/[^a-zA-Z ]/g, " ");
 const noQuotes = str => str.replace(/['"]+/g, '');
+const maxChars = (str, length) => str.replace(new RegExp("^(.{"+length+"}[^\s]*).*"), "$1")
 
 class References extends Component {
   constructor(props) {
@@ -19,14 +20,15 @@ class References extends Component {
     })
   }
   render() {
-    const { references, page } = this.props;
+    const { references, page, description } = this.props;
     const { sortByRecent } = this.state;
     const filteredRefs = sortByRecent ? references.slice().reverse() : references;
-
     return (
       <div className={s.root}>
         <div className={s.container}>
           <h1>{noSpecialChars(page)}</h1>
+          <h4>Overview:</h4>
+          <p>{`${maxChars(description, 200)}...`}</p>
           <h4>References:</h4>
           <div className={s.filter}>
             <p>Sort By:</p>

@@ -9,5 +9,5 @@ export const action = async (state) => {
   const resp = await fetch(`/wiki-api/refs/${page}`);
   const data = await resp.json();
   state.context.onSetTitle(`Wiki Reference History | ${page}`);
-  return <References page={page} references={data} />
+  return <References page={page} references={data.references} description={data.meta.description} />
 };
