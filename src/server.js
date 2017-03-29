@@ -74,10 +74,12 @@ server.get('/wiki-api/refs/:url', (req, res) => {
   const { url } = req.params;
   const query = `https://en.wikipedia.org/wiki/${url}`;
   let references = [];
-  let pageMeta = {};
+  let meta = {};
   request(query, (error, response, html) => {
     if (!error) {
       const $ = cheerio.load(html);
+      const description = $('#mw-content-text p:first-of-type').text()
+      meta.description = description;
       /* Get References */
       $('.references cite .external.text').filter((i, ref) => {
         if (ref.name === 'a') {
@@ -93,7 +95,7 @@ server.get('/wiki-api/refs/:url', (req, res) => {
         }
       })
     }
-    res.send(references);
+    res.send({references, meta});
   })
 })
 
