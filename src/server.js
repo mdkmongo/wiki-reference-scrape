@@ -23,6 +23,7 @@ import passport from './core/passport';
 import schema from './data/schema';
 import Router from './routes';
 import assets from './assets';
+import http from 'http';
 import { port, auth, analytics, wikiAPI } from './config';
 
 const server = global.server = express();
@@ -183,3 +184,11 @@ server.listen(port, () => {
   /* eslint-disable no-console */
   console.log(`The server is running at http://localhost:${port}/`);
 });
+
+
+//
+// Heroku Free Tier App Hack -- ping server every 5 minutes to prevent sleeping
+// -----------------------------------------------------------------------------
+setInterval(function() {
+    http.get("http://wiki-scrape.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
